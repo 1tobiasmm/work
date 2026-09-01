@@ -8,6 +8,10 @@ SKIP_CHANCE = 0.01  # 1% chance to skip the day entirely
 MIN_COMMITS = 10
 MAX_COMMITS = 70
 LOG_FILE = "activity_log.txt"
+GIT_AUTHOR_NAME = os.environ.get("GIT_AUTHOR_NAME", "1tobiasmm")
+GIT_AUTHOR_EMAIL = os.environ.get(
+    "GIT_AUTHOR_EMAIL", "178795395+1tobiasmm@users.noreply.github.com"
+)
 
 
 def run_command(command):
@@ -25,10 +29,12 @@ def main():
     num_commits = random.randint(MIN_COMMITS, MAX_COMMITS)
     print(f"Preparing to make {num_commits} commits today...")
 
-    # Configure Git identity so the commits are attributed properly
-    run_command('git config --global user.name "github-actions[bot]"')
-    run_command(
-        'git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"'
+    # Configure this repository's identity to an email verified by the owner.
+    subprocess.run(
+        ["git", "config", "--local", "user.name", GIT_AUTHOR_NAME], check=True
+    )
+    subprocess.run(
+        ["git", "config", "--local", "user.email", GIT_AUTHOR_EMAIL], check=True
     )
 
     # 3. Loop and create individual commits

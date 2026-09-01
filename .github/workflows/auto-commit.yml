@@ -24,6 +24,10 @@ jobs:
           python-version: '3.x'
 
       - name: Run Commit Bot
+        env:
+          # This GitHub-provided address links commits to the 1tobiasmm account.
+          GIT_AUTHOR_NAME: 1tobiasmm
+          GIT_AUTHOR_EMAIL: 178795395+1tobiasmm@users.noreply.github.com
         run: python bot.py
 
       - name: Push Changes
